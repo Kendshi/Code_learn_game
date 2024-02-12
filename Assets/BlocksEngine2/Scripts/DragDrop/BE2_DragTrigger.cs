@@ -17,6 +17,8 @@ namespace MG_BlocksEngine2.DragDrop
         RectTransform _rectTransform;
         // v2.12 - removed unused blocks stack variable from the DragTrigger class
 
+        [SerializeField] private bool isStatic;
+        
         Transform _transform;
         public Transform Transform => _transform ? _transform : transform;
         public Vector2 RayPoint => _rectTransform.position;
@@ -46,8 +48,10 @@ namespace MG_BlocksEngine2.DragDrop
 
         public void OnDrag()
         {
+            if (isStatic) return;
+
             if (Transform.parent != _dragDropManager.DraggedObjectsTransform)
-                Transform.SetParent(_dragDropManager.DraggedObjectsTransform, true);
+                 Transform.SetParent(_dragDropManager.DraggedObjectsTransform, true);
         }
 
         public void OnPointerUp()

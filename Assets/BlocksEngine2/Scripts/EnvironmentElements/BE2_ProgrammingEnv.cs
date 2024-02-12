@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -104,14 +104,12 @@ namespace MG_BlocksEngine2.Environment
         public void ClearBlocks()
         {
             BlocksList = new List<I_BE2_Block>();
-            foreach (Transform child in Transform)
+            var allBlocks = Transform.GetComponentsInChildren<I_BE2_Block>().ToList();
+
+            foreach (var child in allBlocks.Where(child 
+                => child.Transform.gameObject.activeSelf && child.Type != BlockTypeEnum.trigger))
             {
-                if (child.gameObject.activeSelf)
-                {
-                    I_BE2_Block childBlock = child.GetComponent<I_BE2_Block>();
-                    if (childBlock != null)
-                        Destroy(childBlock.Transform.gameObject);
-                }
+                Destroy(child.Transform.gameObject);
             }
 
             UpdateBlocksList();
