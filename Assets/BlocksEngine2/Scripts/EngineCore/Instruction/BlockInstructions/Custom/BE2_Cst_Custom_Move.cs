@@ -5,21 +5,17 @@ using MG_BlocksEngine2.Block.Instruction;
 
 public class BE2_Cst_Custom_Move : BE2_InstructionBase, I_BE2_Instruction
 {
-    public new bool ExecuteInUpdate => true;
+    [SerializeField] private float speed = 150;
     
+    public new bool ExecuteInUpdate => true;
+
     private bool _canMove = true;
     private Transform _targetPoint;
     private Vector3 _velocity = Vector3.zero;
-    private float _speed = 150;
-    private float _timer = 0f;
+    private float _timer;
 
     // ### Execution Methods ###
 
-    protected override void OnAwake()
-    {
-        
-    }
-    
     // --- Method used to implement Function Blocks (will only be called by types: simple, condition, loop, trigger)
     public new void Function()
     {
@@ -28,14 +24,14 @@ public class BE2_Cst_Custom_Move : BE2_InstructionBase, I_BE2_Instruction
             if (TargetObject is PlayerTarget target)
             { _targetPoint = target?.CheckPath();
                 var distance = Vector3.Distance(TargetObject.Transform.position, _targetPoint.position); 
-                _timer = distance / _speed * 100;
+                _timer = distance / speed * 100;
             }
             _canMove = false;
         }
         
         if (_targetPoint)
         {
-          TargetObject.Transform.position = Vector3.SmoothDamp(TargetObject.Transform.position, _targetPoint.position, ref _velocity, _speed * Time.deltaTime);  
+          TargetObject.Transform.position = Vector3.SmoothDamp(TargetObject.Transform.position, _targetPoint.position, ref _velocity, speed * Time.deltaTime);  
         }
         
        
@@ -50,8 +46,6 @@ public class BE2_Cst_Custom_Move : BE2_InstructionBase, I_BE2_Instruction
             _canMove = false;
             _targetPoint = null;
         }
-       
-     
     }
 
     // ### Execution Setting ###

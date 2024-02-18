@@ -17,4 +17,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/BlocksEngine2_SciFi/Scenes/ScifiBE2SampleScene.unity
     guid: 28db5afba24f900ba844c731679c8717
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 62329fc061785f844b576632bfd13fb2,
+      type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: 19920d9bb29666746ae6290231256281,
+      type: 2}

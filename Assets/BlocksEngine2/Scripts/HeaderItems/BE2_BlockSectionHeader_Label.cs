@@ -20,7 +20,7 @@ namespace MG_BlocksEngine2.Block
         void OnValidate()
         {
             Awake();
-
+            
             _text = BE2_Text.GetBE2Text(transform);
             if (_text != null)
             {
