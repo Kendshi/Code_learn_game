@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class PathChecker : MonoBehaviour
 {
-   [SerializeField] private float distance = 1000f;
+   [SerializeField] private float distance = 100f;
+   [SerializeField] private bool showGizmos = true;
    
    public Transform CrateRay()
    {
@@ -17,5 +18,13 @@ public class PathChecker : MonoBehaviour
       }
       Debug.LogError($"Platform not find");
       return hit.collider.transform;
+   }
+
+   private void OnDrawGizmos()
+   {
+      if (!showGizmos) return;
+      
+      Gizmos.color = Color.blue;
+      Gizmos.DrawRay(transform.position, Vector3.down * distance);
    }
 }

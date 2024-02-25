@@ -1,3 +1,4 @@
+using MG_BlocksEngine2.Environment;
 using UnityEngine;
 
 namespace FSM
@@ -14,6 +15,10 @@ namespace FSM
         void ILevelState.Enter()
         {
             Debug.Log("Enter Initialize");
+            var curLevel = Object.FindObjectOfType<LevelSettings>();
+            var player = Object.Instantiate(Resources.Load<GameObject>("Player"), curLevel.StartPoint.position, Quaternion.identity);
+            Object.FindObjectOfType<PlayerCamera>().SetTarget(player.transform);
+            Object.FindObjectOfType<BE2_ProgrammingEnv>().targetObject = player.GetComponent<BE2_TargetObject>();
             _levelStateMachine.ExitOut();
         }
 

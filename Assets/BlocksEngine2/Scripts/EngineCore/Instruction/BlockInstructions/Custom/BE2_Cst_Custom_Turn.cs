@@ -12,8 +12,11 @@ using MG_BlocksEngine2.Block;
 
 public class BE2_Cst_Custom_Turn : BE2_InstructionBase, I_BE2_Instruction
 {
+    public new bool ExecuteInUpdate => true;
+    
     [SerializeField] private bool isLeftTurn;
     [SerializeField] private float speed = 4;
+    
     private bool _canMove = true;
     private bool _canRotate;
     private float _timer;
@@ -23,7 +26,7 @@ public class BE2_Cst_Custom_Turn : BE2_InstructionBase, I_BE2_Instruction
     public new void Function()
     {
         if (_canMove)
-        {
+        {Debug.Log($"canMove {_canMove}");
             if (TargetObject is PlayerTarget target)
             {
                 var eulerAngles = TargetObject.Transform.eulerAngles;
