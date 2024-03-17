@@ -3,9 +3,14 @@ using UnityEngine;
 
 public class PlayerTarget : BE2_TargetObject
 {
-    public new Transform Transform => transform;
+    [SerializeField] private float rayDistance = 3f;
+    [SerializeField] private float wallCheckerHeight = 2;
+    [SerializeField] private bool showGizmos = true;
+    [SerializeField] private LayerMask platformLayer;
 
     private PathChecker _pathChecker;
+
+    public PathChecker PathChecker => _pathChecker;
 
     private void Awake()
     {
@@ -14,10 +19,23 @@ public class PlayerTarget : BE2_TargetObject
             _pathChecker = GetComponentInChildren<PathChecker>();
         }
     }
-
-    public Transform CheckPath()
+    
+    private void OnDrawGizmos()
     {
-        Debug.Log($"Check path");
-        return _pathChecker.CrateRay();
+        if (!showGizmos) return;
+      
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(transform.position + Vector3.up * wallCheckerHeight, transform.forward * rayDistance);
     }
+
+    public bool CheckWall()
+    {
+        if (Physics.Raycast(transform.position + Vector3.up * wallCheckerHeight, transform.forward, out var hit,  rayDistance, platformLayer))
+        {
+            return true;
+        }
+
+        return false;
+    }
+    
 }

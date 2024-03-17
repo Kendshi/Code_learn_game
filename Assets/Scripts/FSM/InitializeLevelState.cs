@@ -16,7 +16,7 @@ namespace FSM
         {
             Debug.Log("Enter Initialize");
             var curLevel = Object.FindObjectOfType<LevelSettings>();
-            var player = Object.Instantiate(Resources.Load<GameObject>("Player"), curLevel.StartPoint.position, Quaternion.identity);
+            var player = Object.Instantiate(Resources.Load<GameObject>("Player"), curLevel.StartPoint.position, curLevel.StartRotation);
             Object.FindObjectOfType<PlayerCamera>().SetTarget(player.transform);
             Object.FindObjectOfType<BE2_ProgrammingEnv>().targetObject = player.GetComponent<BE2_TargetObject>();
             _levelStateMachine.ExitOut();

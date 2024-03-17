@@ -1,7 +1,6 @@
-using System.Collections;
 using UnityEngine;
-
 using MG_BlocksEngine2.Block.Instruction;
+using MG_BlocksEngine2.Core;
 
 public class BE2_Cst_Custom_Move : BE2_InstructionBase, I_BE2_Instruction
 {
@@ -22,19 +21,35 @@ public class BE2_Cst_Custom_Move : BE2_InstructionBase, I_BE2_Instruction
         if (_canMove)
         {
             if (TargetObject is PlayerTarget target)
-            { _targetPoint = target?.CheckPath();
+            {
+                if (target.CheckWall())
+                {
+                    Debug.Log($"Обнаружил стену");
+                    BE2_ExecutionManager.Instance.Stop();
+                    return;
+                }
+                
+                var platformTarget = target?.PathChecker.CrateRay();
+                
+                if (platformTarget is null)
+                {
+                    _canMove = false;
+                    return;
+                }
+                
+                _targetPoint = platformTarget.NavPoint;
                 var distance = Vector3.Distance(TargetObject.Transform.position, _targetPoint.position); 
-                _timer = distance / speed * 100;
+                _timer = distance / (speed);
+                Debug.Log($"Время на перемещение: {_timer} расстояние: {distance}  скорость: {speed}");
             }
             _canMove = false;
         }
         
         if (_targetPoint)
         {
-          TargetObject.Transform.position = Vector3.SmoothDamp(TargetObject.Transform.position, _targetPoint.position, ref _velocity, speed * Time.deltaTime);  
+            TargetObject.Transform.position = Vector3.MoveTowards(TargetObject.Transform.position, _targetPoint.position, speed * Time.deltaTime); 
         }
         
-       
         if (_timer > 0)
         {
             _timer -= Time.deltaTime;
@@ -42,9 +57,10 @@ public class BE2_Cst_Custom_Move : BE2_InstructionBase, I_BE2_Instruction
         else
         {
             _timer = 0;
-            ExecuteNextInstruction();
             _canMove = false;
+          //  TargetObject.Transform.position = _targetPoint.position;
             _targetPoint = null;
+            ExecuteNextInstruction();
         }
     }
 
