@@ -1,6 +1,7 @@
 using UnityEngine;
 using MG_BlocksEngine2.Block.Instruction;
 using MG_BlocksEngine2.Core;
+using UnityEngine.SceneManagement;
 
 public class BE2_Cst_Custom_Move : BE2_InstructionBase, I_BE2_Instruction
 {
@@ -9,9 +10,10 @@ public class BE2_Cst_Custom_Move : BE2_InstructionBase, I_BE2_Instruction
     public new bool ExecuteInUpdate => true;
 
     private bool _canMove = true;
+    private bool _isFinishPlatform;
     private Transform _targetPoint;
-    private Vector3 _velocity = Vector3.zero;
     private float _timer;
+    
 
     // ### Execution Methods ###
 
@@ -22,21 +24,19 @@ public class BE2_Cst_Custom_Move : BE2_InstructionBase, I_BE2_Instruction
         {
             if (TargetObject is PlayerTarget target)
             {
-                if (target.CheckWall())
+                var platformTarget = target?.PathChecker.CrateRay();
+                
+                if (target.CheckWall() || platformTarget is null || !target.IsNotHigh())
                 {
-                    Debug.Log($"Обнаружил стену");
                     BE2_ExecutionManager.Instance.Stop();
                     return;
                 }
-                
-                var platformTarget = target?.PathChecker.CrateRay();
-                
-                if (platformTarget is null)
+
+                if (platformTarget.IsThisFinish())
                 {
-                    _canMove = false;
-                    return;
+                    _isFinishPlatform = true;
                 }
-                
+
                 _targetPoint = platformTarget.NavPoint;
                 var distance = Vector3.Distance(TargetObject.Transform.position, _targetPoint.position); 
                 _timer = distance / (speed);
@@ -58,21 +58,21 @@ public class BE2_Cst_Custom_Move : BE2_InstructionBase, I_BE2_Instruction
         {
             _timer = 0;
             _canMove = false;
-          //  TargetObject.Transform.position = _targetPoint.position;
+            TargetObject.Transform.position = _targetPoint.position;
             _targetPoint = null;
+            if (_isFinishPlatform)
+            {
+                _isFinishPlatform = false;
+                BE2_ExecutionManager.Instance.Stop();
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                return;
+            }
             ExecuteNextInstruction();
         }
     }
 
-    // ### Execution Setting ###
-
-    // --- Use ExecuteInUpdate for functions that plays repeatedly in update, holding the blocks stack execution flow until completed (ex.: wait, lerp).
-    // --- Default value is false. Loop Blocks are always executed in update (true).
-    //public new bool ExecuteInUpdate => true; 
-
     // ### Additional Methods ###
     
-
     public override void OnStackActive()
     {
         _canMove = true;

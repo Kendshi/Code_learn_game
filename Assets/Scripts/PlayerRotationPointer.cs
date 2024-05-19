@@ -37,13 +37,13 @@ public class PlayerRotationPointer : MonoBehaviour
     [HideField]
     public bool isRotateRight;
 
-    private void RotateRight()
+    public void RotateRight()
     {
         transform.Rotate(0, 90, 0);
         transformRotation = transform.rotation.eulerAngles;
     }
 
-    private void RotateLeft()
+    public void RotateLeft()
     {
         transform.Rotate(0, -90, 0);
         transformRotation = transform.rotation.eulerAngles;

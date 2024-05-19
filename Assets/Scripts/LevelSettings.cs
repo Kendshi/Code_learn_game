@@ -1,15 +1,16 @@
-using System;
 using UnityEngine;
 
 public class LevelSettings : MonoBehaviour
 {
     [SerializeField] private Platform playerStartPlatform;
-    [SerializeField] private Platform finish;
+    [SerializeField] private Platform finishPosition;
     [SerializeField] private bool showGizmos = true;
     [SerializeField] private PlayerRotationPointer rotationPointer;
 
     public Transform StartPoint => playerStartPlatform.NavPoint;
     public Quaternion StartRotation => rotationPointer.transform.rotation;
+
+    public Platform FinishPlatform => finishPosition;
 
     private void OnDrawGizmos()
     {
@@ -18,10 +19,10 @@ public class LevelSettings : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawCube(playerStartPlatform.transform.position + Vector3.up, Vector3.one * 2);
 
-        if (!finish) return;
+        if (!finishPosition) return;
         
         Gizmos.color = Color.yellow;
-        Gizmos.DrawCube(finish.transform.position + Vector3.up, Vector3.one * 2);
+        Gizmos.DrawCube(finishPosition.transform.position + Vector3.up, Vector3.one * 2);
     }
 
     private void OnValidate()
@@ -35,5 +36,16 @@ public class LevelSettings : MonoBehaviour
 
         rotationPointer.transform.position = playerStartPlatform.NavPoint.position;
 
+    }
+
+    public void SetStartPosition(Platform start)
+    {
+        playerStartPlatform = start;
+        rotationPointer.transform.position = playerStartPlatform.NavPoint.position;
+    }
+    
+    public void SetFinishPosition(Platform finish)
+    {
+        finishPosition = finish;
     }
 }

@@ -945,9 +945,10 @@ MonoBehaviour:
   _: 0
   previewObj:
     animatorParameterAttributeExamples:
-      animatorController: {fileID: 9100000, guid: 3a1cea91d6692bf40b069a1d3b66f1b5, type: 2}
+      animatorController: {fileID: 9100000, guid: 3a1cea91d6692bf40b069a1d3b66f1b5,
+        type: 2}
       animator: {fileID: 0}
-      paramName2: NewFloat
+      paramName2: <missing>
       paramName: <missing>
     asButtonAttributeExamples:
       selectableBoolean: 0
@@ -1318,7 +1319,8 @@ MonoBehaviour:
         assetReference: {fileID: 0}
       path:
         path: Assets
-        assetReference: {fileID: 102900000, guid: 00000000000000001000000000000000, type: 3}
+        assetReference: {fileID: 102900000, guid: 00000000000000001000000000000000,
+          type: 3}
     lineGraphExamples:
       ak47_damage:
         _: 0

@@ -14,7 +14,7 @@ public class PathChecker : MonoBehaviour
             return platform;
          }
       }
-      Debug.LogError($"Platform not find");
+//      Debug.LogError($"Platform not find");
       return null;
    }
 

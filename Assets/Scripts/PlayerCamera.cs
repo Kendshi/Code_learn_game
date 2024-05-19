@@ -18,6 +18,7 @@ public class PlayerCamera : MonoBehaviour
     private void Start()
     {
         _transform = transform;
+        _currentRotation = transform.rotation.eulerAngles;
         SetRotation();
     }
 
