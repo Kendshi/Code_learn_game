@@ -38,6 +38,10 @@ MonoBehaviour:
     m_Localized: Turn Right
     m_Metadata:
       m_Items: []
+  - m_Id: 36946529219207168
+    m_Localized: Pick up
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

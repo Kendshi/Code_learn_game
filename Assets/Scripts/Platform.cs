@@ -10,9 +10,12 @@ public class Platform : MonoBehaviour
     [SerializeField] 
     private int heightLevel;
     
-    [HideInInspector]
     [SerializeField]
-    private PickableType currentPickable;
+    private ItemsRef pickablesRefs;
+    
+    //[HideInInspector]
+    [SerializeField]
+    private GameObject currentPickable = null;
     
     public Transform NavPoint => navPoint;
     public int HeightLevel => heightLevel;
@@ -89,13 +92,31 @@ public class Platform : MonoBehaviour
     [HorizontalLine("Make Pickable object")]
     public PickableType type; 
     
+    [Space2(20)]
     [Button(nameof(CreatePickable))]
     [HideField]
     public bool isCreatePickable;
 
     private void CreatePickable()
     {
-        Instantiate(Resources.Load<GameObject>(type.ToString()),navPoint.transform.position, Quaternion.identity);
+        Debug.Log(currentPickable); 
+        if (currentPickable is not null)
+            RemovePickable();
+ 
+        currentPickable = Instantiate(pickablesRefs.GetObject(type).gameObject,navPoint.transform.position, Quaternion.identity);
+    }
+    
+    [Button(nameof(RemovePickable))]
+    [HideField]
+    public bool isRemovePickable;
+
+    private void RemovePickable()
+    {
+        if (currentPickable is null)
+            return;
+        
+        DestroyImmediate(currentPickable);
+        currentPickable = null;
     }
     
 }

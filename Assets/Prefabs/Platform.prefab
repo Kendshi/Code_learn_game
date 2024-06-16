@@ -163,6 +163,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navPoint: {fileID: 7924614173140269817}
   heightLevel: 0
+  pickablesRefs: {fileID: 11400000, guid: 8a21072e3c968be4ba0ea0903ef32212, type: 2}
+  currentPickable: {fileID: 0}
+  isSetStartPoint: 0
+  isSetFinishPoint: 0
+  isRotateLeft: 0
+  isRotateRight: 0
+  type: 0
+  isCreatePickable: 0
+  isRemovePickable: 0
 --- !u!65 &8703244751752738928
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -35,6 +35,10 @@ MonoBehaviour:
     m_Key: Reset
     m_Metadata:
       m_Items: []
+  - m_Id: 32986631385079808
+    m_Key: Selections_Interaction
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

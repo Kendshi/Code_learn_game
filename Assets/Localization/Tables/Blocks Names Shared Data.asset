@@ -35,6 +35,10 @@ MonoBehaviour:
     m_Key: Block_Turn_Right
     m_Metadata:
       m_Items: []
+  - m_Id: 36946529219207168
+    m_Key: Block_Pick_up
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

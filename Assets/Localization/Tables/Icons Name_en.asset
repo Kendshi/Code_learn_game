@@ -38,6 +38,10 @@ MonoBehaviour:
     m_Localized: Reset
     m_Metadata:
       m_Items: []
+  - m_Id: 32986631385079808
+    m_Localized: Interactions
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

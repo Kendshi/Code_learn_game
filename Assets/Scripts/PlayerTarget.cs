@@ -7,6 +7,7 @@ public class PlayerTarget : BE2_TargetObject
     [SerializeField] private float wallCheckerHeight = 2;
     [SerializeField] private bool showGizmos = true;
     [SerializeField] private LayerMask platformLayer;
+    [SerializeField] private ItemSystem itemSystem;
 
     private PathChecker _pathChecker;
 
