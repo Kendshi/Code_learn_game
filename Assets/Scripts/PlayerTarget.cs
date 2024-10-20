@@ -36,16 +36,22 @@ public class PlayerTarget : BE2_TargetObject
 
     public bool IsNotHigh()
     {
+        // Fast check for platform under player
         if (!Physics.Raycast(transform.position, Vector3.down, out var playerPlatform, rayDistance, platformLayer))
             return false;
-        
-        if (playerPlatform.transform.TryGetComponent<Platform>(out var platform))
-        {
-            var targetPlatform = _pathChecker.CrateRay();
-            if (targetPlatform is null) return false;
-            return platform.HeightLevel == targetPlatform.HeightLevel;
-        }
-        
-        return true;
+
+        // Check if target platform is on the same level
+        var _targetPlatform = _pathChecker.GetTargetPlatform();
+        var _playerPlatform = playerPlatform.collider.GetComponent<Platform>();
+        if (_targetPlatform is null) return false;
+
+        if (_playerPlatform.connectedPlatforms.Contains(_targetPlatform)) return true;
+ 
+        return _targetPlatform.HeightLevel == _playerPlatform.HeightLevel;
     }
+
+    public void PickUpItem(GameObject item)
+    {
+        itemSystem.PickUpItem(item);
+    }    
 }

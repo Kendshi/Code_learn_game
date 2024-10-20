@@ -2,6 +2,7 @@
 // --- most used BE2 namespaces for instruction scripts 
 using MG_BlocksEngine2.Block.Instruction;
 using MG_BlocksEngine2.Block;
+using MG_BlocksEngine2.Core;
 
 // --- additional BE2 namespaces used for specific cases as accessing BE2 variables or the event manager
 // using MG_BlocksEngine2.Core;
@@ -15,7 +16,18 @@ public class BE2_Cst_Custom_Pick_Up : BE2_InstructionBase, I_BE2_Instruction
     
     public new void Function()
     {
-       
+       if (TargetObject is PlayerTarget target)
+       {
+            var platformTarget = target?.PathChecker.GetTargetPlatform();
+
+            if (target.CheckWall() || platformTarget is null || !target.IsNotHigh())
+                {
+                    BE2_ExecutionManager.Instance.Stop();
+                    return;
+                }
+            target.PickUpItem(platformTarget.CurrentPickable.Item.gameObject);
+            platformTarget.RemovePickable();
+       }
         ExecuteNextInstruction();
     }
 

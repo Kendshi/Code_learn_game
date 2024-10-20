@@ -5,16 +5,16 @@ public class PathChecker : MonoBehaviour
    [SerializeField] private float rayDistance = 100f;
    [SerializeField] private bool showGizmos = true;
    
-   public Platform CrateRay()
+   public Platform GetTargetPlatform()
    {
-      if (Physics.Raycast(transform.position, Vector3.down, out var hit,  rayDistance))
+      if (Physics.Raycast(transform.position, Vector3.down, out var hit,  rayDistance, LayerMask.GetMask("Platform")))
       {
+         Debug.Log($"PathChecker.CreateRay: hit to {hit.collider.name}");
          if (hit.collider.TryGetComponent(out Platform platform))
          {
             return platform;
          }
       }
-//      Debug.LogError($"Platform not find");
       return null;
    }
 

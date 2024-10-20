@@ -24,7 +24,7 @@ public class BE2_Cst_Custom_Move : BE2_InstructionBase, I_BE2_Instruction
         {
             if (TargetObject is PlayerTarget target)
             {
-                var platformTarget = target?.PathChecker.CrateRay();
+                var platformTarget = target?.PathChecker.GetTargetPlatform();
                 
                 if (target.CheckWall() || platformTarget is null || !target.IsNotHigh())
                 {

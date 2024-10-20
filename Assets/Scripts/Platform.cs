@@ -1,27 +1,34 @@
 using UnityEngine;
 using CustomInspector;
+using System.Collections.Generic;
 
 public class Platform : MonoBehaviour
 {
     [SerializeField] 
     private Transform navPoint;
-    
+
     [Range(1,3)]
     [SerializeField] 
     private int heightLevel;
-    
+
     [SerializeField]
     private ItemsRef pickablesRefs;
     
     //[HideInInspector]
     [SerializeField]
-    private GameObject currentPickable = null;
-    
+    private Pickables currentPickable = null;
+    [SerializeField]
+    private bool isFreeHighEdit;
+    public List<Platform> connectedPlatforms = new List<Platform>();
+
     public Transform NavPoint => navPoint;
     public int HeightLevel => heightLevel;
+    public Pickables CurrentPickable => currentPickable;
 
     private void OnValidate()
     {
+        if (isFreeHighEdit) return;
+
         var currentPosition = transform.position;
         
         switch (heightLevel)
@@ -103,19 +110,19 @@ public class Platform : MonoBehaviour
         if (currentPickable is not null)
             RemovePickable();
  
-        currentPickable = Instantiate(pickablesRefs.GetObject(type).gameObject,navPoint.transform.position, Quaternion.identity);
+        currentPickable = Instantiate(pickablesRefs.GetObject(type).gameObject,navPoint.transform.position, Quaternion.identity).GetComponent<Pickables>();
     }
     
     [Button(nameof(RemovePickable))]
     [HideField]
     public bool isRemovePickable;
 
-    private void RemovePickable()
+    public void RemovePickable()
     {
-        if (currentPickable is null)
+        if (currentPickable == null)
             return;
         
-        DestroyImmediate(currentPickable);
+        DestroyImmediate(currentPickable.gameObject);
         currentPickable = null;
     }
     
